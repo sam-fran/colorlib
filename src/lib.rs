@@ -17,12 +17,21 @@ impl RGB {
     }
 
     /// Returns the inverted color of the current one.
-    pub fn invert(self) -> Self {
+    pub fn invert(&self) -> Self {
         Self {
             r: 255 - self.r,
             g: 255 - self.g,
             b: 255 - self.b,
         }
+    }
+
+    /// Returns the luminance of the color as an 8-bit value.
+    pub fn luminance(&self) -> u8 {
+        let luminance = 0.2126 * self.r as f32
+            + 0.7152 * self.g as f32
+            + 0.0722 * self.b as f32;
+
+        luminance.round() as u8
     }
 }
 
@@ -33,14 +42,14 @@ impl std::fmt::Debug for RGB {
 }
 
 impl std::fmt::Display for RGB {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(f, "{}", self.hex())
-	}
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.hex())
+    }
 }
 
 impl std::ops::Add for RGB {
     type Output = Self;
-	/// Adds two RGB colors together, saturating at 255.
+    /// Adds two RGB colors together, saturating at 255.
     fn add(self, rhs: Self) -> Self {
         Self {
             r: self.r.saturating_add(rhs.r),
@@ -52,7 +61,7 @@ impl std::ops::Add for RGB {
 
 impl std::ops::Sub for RGB {
     type Output = Self;
-	/// Subtracts one RGB color from another, saturating at 0.
+    /// Subtracts one RGB color from another, saturating at 0.
     fn sub(self, rhs: Self) -> Self {
         Self {
             r: self.r.saturating_sub(rhs.r),
@@ -63,24 +72,24 @@ impl std::ops::Sub for RGB {
 }
 
 impl Default for RGB {
-	/// Default constructor for RGB; initializes the color to black.
-	fn default() -> Self {
-		Self { r: 0, g: 0, b: 0 }
-	}
+    /// Default constructor for RGB; initializes the color to black.
+    fn default() -> Self {
+        Self { r: 0, g: 0, b: 0 }
+    }
 }
 
 impl From<(u8, u8, u8)> for RGB {
-	/// RGB construtor from 3 u8's
-	fn from(tuple: (u8, u8, u8)) -> Self {
-		Self::new(tuple.0, tuple.1, tuple.2)
-	}
+    /// RGB construtor from 3 u8's
+    fn from(tuple: (u8, u8, u8)) -> Self {
+        Self::new(tuple.0, tuple.1, tuple.2)
+    }
 }
 
 impl From<[u8; 3]> for RGB {
-	/// RGB construtor from an array of 3 u8's
-	fn from(array: [u8; 3]) -> Self {
-		Self::new(array[0], array[1], array[2])
-	}
+    /// RGB construtor from an array of 3 u8's
+    fn from(array: [u8; 3]) -> Self {
+        Self::new(array[0], array[1], array[2])
+    }
 }
 
 #[cfg(test)]

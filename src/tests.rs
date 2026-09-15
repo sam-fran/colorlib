@@ -65,6 +65,13 @@ fn inversion_works() {
 }
 
 #[test]
+fn luminance_calculation_works() {
+	let rgb: RGB = RGB::new(200, 118, 100);
+	let luminance: u8 = rgb.luminance();
+	assert_eq!(luminance, 134);
+}
+
+#[test]
 fn addition_works() {
 	let rgb1: RGB = RGB::new(100, 150, 200);
 	let rgb2: RGB = RGB::new(50, 100, 150);
